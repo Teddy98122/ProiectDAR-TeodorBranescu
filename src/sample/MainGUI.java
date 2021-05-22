@@ -51,14 +51,18 @@ public class MainGUI extends LogIn {
         }
     }
 
-    public void addDiary(ActionEvent actionEvent) {
+    public void addDiary(ActionEvent actionEvent) throws Exception {
         String message = DiaryEntry.getText();
 
         if(insertDB(message,nume_ret) == true){
-            System.out.println("Datele inserate cu succes !");
+            System.out.println("Datele au fost inserate cu succes !");
+            Succes suc = new Succes();
+            suc.launchSucces();
         }
         else{
             System.out.println("Datele nu au fost inserate cu succes !");
+            Eroare err = new Eroare();
+            err.launchError();
         }
     }
 }

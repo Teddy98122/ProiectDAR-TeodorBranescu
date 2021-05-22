@@ -1,15 +1,6 @@
 package sample;
 
 public class Diary {
-    public String number;
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
 
     public String getContent() {
         return content;
@@ -21,9 +12,9 @@ public class Diary {
 
     public String content;
 
-    public Diary(String number, String content)
+    public Diary( String content)
     {
-        this.number=number;
+
         this.content=content;
     }
 }

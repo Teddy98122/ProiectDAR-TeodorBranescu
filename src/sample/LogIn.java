@@ -95,7 +95,8 @@ public class LogIn {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            System.out.println("Eroare");
+            Eroare err = new Eroare();
+            err.launchError();
         }
 
     }

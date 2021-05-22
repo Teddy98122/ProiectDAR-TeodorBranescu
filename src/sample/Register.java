@@ -69,19 +69,25 @@ public class Register {
         }
     }
 
-    public void register(ActionEvent actionEvent) {
+    public void register(ActionEvent actionEvent) throws Exception {
         String Nume = NumeRegister.getText();
         String Parola = ParolaRegister.getText();
         String ParolaCon = ParolaConfirmare.getText();
         if (Parola.equals(ParolaCon)) {
             if (insertDB(Nume, Parola) == true) {
                 System.out.println("Inserarea a fost efectuata cu succes !");
+                Succes suc = new Succes();
+                suc.launchSucces();
             } else {
                 System.out.println("A aparut o problema la inserarea datelor !");
+                Eroare err = new Eroare();
+                err.launchError();
             }
         }
         else{
             System.out.println("A aparut o problema cu parola !");
+            Eroare err = new Eroare();
+            err.launchError();
         }
     }
 }

@@ -18,12 +18,13 @@ import javafx.stage.Stage;
 import org.omg.PortableInterceptor.DISCARDING;
 
 import java.net.URL;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DiaryList implements Initializable {
+public class DiaryList extends LogIn implements Initializable {
 
     @FXML
     private Button BackButton;
@@ -37,29 +38,38 @@ public class DiaryList implements Initializable {
     @FXML
     private TableColumn<Diary,String> content;
 
-    private ObservableList<Diary> list=FXCollections.observableArrayList();
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        String sql = "SELECT  Content FROM Diary WHERE FK_User_Name = ?";
         List<Diary> test = new ArrayList<Diary>();
-        test.add(new Diary("hey","hey"));
-        test.add(new Diary("test","test"));
-        test.add(new Diary("test","test"));
+
+        try (Connection conn = this.connectDB();
+             PreparedStatement pstmt  = conn.prepareStatement(sql)){
+             pstmt.setString(1,nume_ret);
+
+             ResultSet rs  = pstmt.executeQuery();
+
+                // loop through the result set
+                while (rs.next()) {
+                    test.add(new Diary(rs.getString("Content")));
+                }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
 
 
         ObservableList<Diary> DiaryObs = FXCollections.observableArrayList(test);
 
-        number.setCellValueFactory(new PropertyValueFactory<Diary, String>("number"));
+        //number.setCellValueFactory(new PropertyValueFactory<Diary, String>("number"));
         content.setCellValueFactory(new PropertyValueFactory<Diary, String>("content"));
 
         //TableDiary.setItems(DiaryObs);
         TableDiary.getItems().setAll(DiaryObs);
 
-
-        System.out.println(DiaryObs.size());
 
 
     }
