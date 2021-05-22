@@ -22,12 +22,26 @@ public class LogIn {
     private Button RegisterButton;
 
     @FXML
-    private TextField NumeLogIn;
+    protected TextField NumeLogIn;
 
     @FXML
-    private PasswordField ParolaLogIn;
+    protected PasswordField ParolaLogIn;
 
-    private Connection connectDB() {
+    protected static String nume_ret;
+
+    protected static String passwd_ret;
+
+    protected void name_ret()
+    {
+        this.nume_ret = NumeLogIn.getText();
+    }
+
+    protected void password_ret()
+    {
+        this.passwd_ret = ParolaLogIn.getText();
+    }
+
+    protected Connection connectDB() {
         // SQLite connection string
         String url = "jdbc:sqlite:test.db";
         Connection conn = null;
@@ -52,7 +66,7 @@ public class LogIn {
     }
 
     public void MainPage(ActionEvent actionEvent) throws Exception {
-
+        name_ret();
         String sql = "SELECT Name, Password FROM User WHERE Name == ?";
 
         try (Connection conn = this.connectDB();
@@ -71,8 +85,8 @@ public class LogIn {
             if(result_name.equals(name)&&result_password.equals(passwd))
             {
                 Stage stage = (Stage) RegisterButton.getScene().getWindow();
-                Parent scene = FXMLLoader.load(getClass().getResource("main.fxml"));
-                stage.setTitle("MainPage");
+                Parent scene = FXMLLoader.load(getClass().getResource("DSelect.fxml"));
+                stage.setTitle("MainSelect");
                 stage.setScene(new Scene(scene));
                 stage.resizableProperty().setValue(Boolean.FALSE);
                 //addAbbStage.initStyle(StageStyle.UNDECORATED);
