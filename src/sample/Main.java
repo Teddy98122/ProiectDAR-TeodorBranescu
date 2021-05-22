@@ -51,8 +51,7 @@ public class Main extends Application {
         // SQL statement for creating a new table
         String sql = "CREATE TABLE IF NOT EXISTS User\n" +
                 "(\n" +
-                "Pk_User_Id INTEGER PRIMARY KEY,\n" +
-                "Name TEXT,\n" +
+                "Name TEXT PRIMARY KEY,\n" +
                 "Password TEXT\n" +
                 ");";
 
@@ -60,8 +59,8 @@ public class Main extends Application {
                 "(\n" +
                 "Pk_Entry_Id INTEGER PRIMARY KEY,\n" +
                 "Content TEXT,\n" +
-                "FK_User_ID INTEGER,\n"+
-                "FOREIGN KEY(FK_User_Id) REFERENCES User(PK_User_Id)\n" +
+                "FK_User_Name INTEGER,\n"+
+                "FOREIGN KEY(FK_User_Name) REFERENCES User(Name)\n" +
                 ");";
 
         try (Connection conn = DriverManager.getConnection(url);

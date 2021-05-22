@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #2A0033; " xmlns="http://javafx.com/javafx/8.0.216" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #2A0033; " xmlns="http://javafx.com/javafx/8.0.216" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.LogIn">
     <children>
         <Pane layoutX="-2.0" layoutY="13.0" prefHeight="720.0" prefWidth="1280.0">
             <children>
-                <TextField stylesheets="@LogInStyle.css" fx:id="NumeLogIn" layoutX="449.0" layoutY="274.0" prefHeight="34.0" prefWidth="411.0" style="-fx-border-color: #9643A9; -fx-background-color: #2A0033; -fx-border-radius: 20;" styleClass="text-input" />
+                <TextField fx:id="NumeLogIn" stylesheets="@LogInStyle.css" layoutX="449.0" layoutY="274.0" prefHeight="34.0" prefWidth="411.0" style="-fx-border-color: #9643A9; -fx-background-color: #2A0033; -fx-border-radius: 20;" styleClass="text-input" />
                 <Label layoutX="348.0" layoutY="273.0" text="Nume" textFill="#ddd9d9">
                     <font>
                         <Font size="24.0" />
@@ -27,7 +27,7 @@
                 <PasswordField stylesheets="@LogInStyle.css" fx:id="ParolaLogIn" layoutX="447.0" layoutY="345.0" prefHeight="34.0" prefWidth="410.0" style="-fx-background-color: #2A0033; -fx-border-color: #9643A9; -fx-border-radius: 20;" styleClass="text-input" />
                 <Separator layoutX="-1.0" layoutY="438.0" opacity="0.15" prefHeight="50.0" prefWidth="1281.0" />
                 <Button fx:id="RegisterButton" layoutX="439.0" layoutY="577.0" mnemonicParsing="false" onAction="#registerPage" prefHeight="47.0" prefWidth="450.0" style="-fx-background-color: #FCBB31; -fx-background-radius: 5em;" text="Creare cont nou " textFill="WHITE" />
-                <Button fx:id="LogInButton" layoutX="441.0" layoutY="509.0" mnemonicParsing="false" onAction="#LogInPage" prefHeight="47.0" prefWidth="441.0" style="-fx-background-color: #CE201C; -fx-background-radius: 5em;" text="LogIn" textFill="WHITE" />
+                <Button fx:id="LogInButton" layoutX="441.0" layoutY="509.0" mnemonicParsing="false" onAction="#MainPage" prefHeight="47.0" prefWidth="441.0" style="-fx-background-color: #CE201C; -fx-background-radius: 5em;" text="LogIn" textFill="WHITE" />
                 <Label fx:id="Aut1" layoutX="539.0" layoutY="23.0" text="Autentificare" textFill="#bc0b0b">
                     <font>
                         <Font name="Berlin Sans FB" size="39.0" />
