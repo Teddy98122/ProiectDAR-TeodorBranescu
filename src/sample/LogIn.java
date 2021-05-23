@@ -67,6 +67,7 @@ public class LogIn {
 
     public void MainPage(ActionEvent actionEvent) throws Exception {
         name_ret();
+        password_ret();
         String sql = "SELECT Name, Password FROM User WHERE Name == ?";
 
         try (Connection conn = this.connectDB();
@@ -80,7 +81,8 @@ public class LogIn {
             ResultSet rs  = pstmt.executeQuery();
 
             String result_name = rs.getString("Name");
-            String result_password = rs.getString("Password");
+            String passwd2 = rs.getString("Password");
+            String result_password = AES_Crypt.decrypt(passwd2,passwd); //Numele variabilelor sunt cam ciudate
 
             if(result_name.equals(name)&&result_password.equals(passwd))
             {

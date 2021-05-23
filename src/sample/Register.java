@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sun.security.krb5.internal.crypto.Aes128;
 
 import java.io.Console;
 import java.sql.Connection;
@@ -70,11 +71,15 @@ public class Register {
     }
 
     public void register(ActionEvent actionEvent) throws Exception {
+
         String Nume = NumeRegister.getText();
         String Parola = ParolaRegister.getText();
         String ParolaCon = ParolaConfirmare.getText();
+        String secretKey = ParolaRegister.getText();
+
+        String criptare_parola = AES_Crypt.encrypt(Parola,secretKey);
         if (Parola.equals(ParolaCon)) {
-            if (insertDB(Nume, Parola) == true) {
+            if (insertDB(Nume, criptare_parola) == true) {
                 System.out.println("Inserarea a fost efectuata cu succes !");
                 Succes suc = new Succes();
                 suc.launchSucces();

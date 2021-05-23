@@ -53,7 +53,9 @@ public class DiaryList extends LogIn implements Initializable {
 
                 // loop through the result set
                 while (rs.next()) {
-                    test.add(new Diary(rs.getString("Content")));
+                    String content_text = rs.getString("Content");
+                    String decrypt = AES_Crypt.decrypt(content_text,passwd_ret);
+                    test.add(new Diary(decrypt));
                 }
 
         } catch (SQLException e) {

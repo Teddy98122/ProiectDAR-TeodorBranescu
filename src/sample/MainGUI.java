@@ -53,8 +53,10 @@ public class MainGUI extends LogIn {
 
     public void addDiary(ActionEvent actionEvent) throws Exception {
         String message = DiaryEntry.getText();
-
-        if(insertDB(message,nume_ret) == true){
+        String passwd = passwd_ret;
+        String message_crypt = AES_Crypt.encrypt(message,passwd);
+        System.out.println("Parola: "+passwd);
+        if(insertDB(message_crypt,nume_ret) == true){
             System.out.println("Datele au fost inserate cu succes !");
             Succes suc = new Succes();
             suc.launchSucces();
