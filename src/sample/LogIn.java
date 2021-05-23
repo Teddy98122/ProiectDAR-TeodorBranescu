@@ -83,16 +83,21 @@ public class LogIn {
             String result_name = rs.getString("Name");
             String passwd2 = rs.getString("Password");
             String result_password = AES_Crypt.decrypt(passwd2,passwd); //Numele variabilelor sunt cam ciudate
-
-            if(result_name.equals(name)&&result_password.equals(passwd))
+            if(result_name != null && result_password != null){
+                if(result_name.equals(name)&&result_password.equals(passwd))
+                {
+                    Stage stage = (Stage) RegisterButton.getScene().getWindow();
+                    Parent scene = FXMLLoader.load(getClass().getResource("DSelect.fxml"));
+                    stage.setTitle("MainSelect");
+                    stage.setScene(new Scene(scene));
+                    stage.resizableProperty().setValue(Boolean.FALSE);
+                    //addAbbStage.initStyle(StageStyle.UNDECORATED);
+                    stage.show();
+                }
+            }
+            else
             {
-                Stage stage = (Stage) RegisterButton.getScene().getWindow();
-                Parent scene = FXMLLoader.load(getClass().getResource("DSelect.fxml"));
-                stage.setTitle("MainSelect");
-                stage.setScene(new Scene(scene));
-                stage.resizableProperty().setValue(Boolean.FALSE);
-                //addAbbStage.initStyle(StageStyle.UNDECORATED);
-                stage.show();
+                System.out.println("Error !");
             }
 
         } catch (SQLException e) {

@@ -9,20 +9,55 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+//Clasa de criptatare
+
 public class AES_Crypt {
 
-    private static SecretKeySpec secretKey;
-    private static byte[] key;
+    private static SecretKeySpec cheieSecreta;
+    private static byte[] cheie;
+
+
+    public static String encrypt(String strDeCriptat, String secreta)
+    {
+        try
+        {
+            setKey(secreta);
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, cheieSecreta);
+            return Base64.getEncoder().encodeToString(cipher.doFinal(strDeCriptat.getBytes("UTF-8")));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error while encrypting: " + e.toString());
+        }
+        return null;
+    }
+
+    public static String decrypt(String strDeDecriptat, String secret)
+    {
+        try
+        {
+            setKey(secret);
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, cheieSecreta);
+            return new String(cipher.doFinal(Base64.getDecoder().decode(strDeDecriptat)));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Error while decrypting: " + e.toString());
+        }
+        return null;
+    }
 
     public static void setKey(String myKey)
     {
         MessageDigest sha = null;
         try {
-            key = myKey.getBytes("UTF-8");
+            cheie = myKey.getBytes("UTF-8");
             sha = MessageDigest.getInstance("SHA-1");
-            key = sha.digest(key);
-            key = Arrays.copyOf(key, 16);
-            secretKey = new SecretKeySpec(key, "AES");
+            cheie = sha.digest(cheie);
+            cheie = Arrays.copyOf(cheie, 16);
+            cheieSecreta = new SecretKeySpec(cheie, "AES");
         }
         catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -32,35 +67,4 @@ public class AES_Crypt {
         }
     }
 
-    public static String encrypt(String strToEncrypt, String secret)
-    {
-        try
-        {
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error while encrypting: " + e.toString());
-        }
-        return null;
-    }
-
-    public static String decrypt(String strToDecrypt, String secret)
-    {
-        try
-        {
-            setKey(secret);
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
-        }
-        catch (Exception e)
-        {
-            System.out.println("Error while decrypting: " + e.toString());
-        }
-        return null;
-    }
 }
