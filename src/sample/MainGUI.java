@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class MainGUI extends LogIn {
 
@@ -36,13 +37,14 @@ public class MainGUI extends LogIn {
         stage.show();
     }
 
-    public boolean insertDB(String Content, String FK_User_Name) {
-        String sql = "INSERT INTO Diary(Content,FK_User_Name) VALUES(?,?)";
+    public boolean insertDB(String Content, String FK_User_Name, String SALT) {
+        String sql = "INSERT INTO Diary(Content,FK_User_Name,SALT) VALUES(?,?,?)";
 
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, Content);
             pstmt.setString(2, FK_User_Name);
+            pstmt.setString(3, SALT);
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -54,9 +56,10 @@ public class MainGUI extends LogIn {
     public void addDiary(ActionEvent actionEvent) throws Exception {
         String message = DiaryEntry.getText();
         String passwd = passwd_ret;
-        String message_crypt = AES_Crypt.encrypt(message,passwd);
-        System.out.println("Parola: "+passwd);
-        if(insertDB(message_crypt,nume_ret) == true){
+        String id_UUID = UUID.randomUUID().toString();
+        String message_crypt = AES_Crypt.encrypt(message,passwd+id_UUID);
+        String salt_crypt = AES_Crypt.encrypt(id_UUID,passwd);
+        if(insertDB(message_crypt,nume_ret,salt_crypt) == true){
             System.out.println("Datele au fost inserate cu succes !");
             Succes suc = new Succes();
             suc.launchSucces();

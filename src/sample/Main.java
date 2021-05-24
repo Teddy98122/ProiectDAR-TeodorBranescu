@@ -52,13 +52,15 @@ public class Main extends Application {
         String sql = "CREATE TABLE IF NOT EXISTS User\n" +
                 "(\n" +
                 "Name TEXT PRIMARY KEY,\n" +
-                "Password TEXT\n" +
+                "Password TEXT,\n" +
+                "SALT TEXT\n" +
                 ");";
 
         String sql2 = "CREATE TABLE IF NOT EXISTS Diary\n" +
                 "(\n" +
                 "Pk_Entry_Id INTEGER PRIMARY KEY,\n" +
                 "Content TEXT,\n" +
+                "SALT TEXT,\n" +
                 "FK_User_Name INTEGER,\n"+
                 "FOREIGN KEY(FK_User_Name) REFERENCES User(Name)\n" +
                 ");";

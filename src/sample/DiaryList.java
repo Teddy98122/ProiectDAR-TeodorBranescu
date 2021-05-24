@@ -42,7 +42,7 @@ public class DiaryList extends LogIn implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        String sql = "SELECT  Content FROM Diary WHERE FK_User_Name = ?";
+        String sql = "SELECT  Content, SALT FROM Diary WHERE FK_User_Name = ?";
         List<Diary> test = new ArrayList<Diary>();
 
         try (Connection conn = this.connectDB();
@@ -54,7 +54,9 @@ public class DiaryList extends LogIn implements Initializable {
                 // loop through the result set
                 while (rs.next()) {
                     String content_text = rs.getString("Content");
-                    String decrypt = AES_Crypt.decrypt(content_text,passwd_ret);
+                    String salt_text = rs.getString("SALT");
+                    String salt_decrypt = AES_Crypt.decrypt(salt_text,passwd_ret);
+                    String decrypt = AES_Crypt.decrypt(content_text,passwd_ret+salt_decrypt);
                     test.add(new Diary(decrypt));
                 }
 

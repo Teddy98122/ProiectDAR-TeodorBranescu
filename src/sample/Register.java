@@ -12,10 +12,13 @@ import javafx.stage.Stage;
 import sun.security.krb5.internal.crypto.Aes128;
 
 import java.io.Console;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Random;
+import java.util.UUID;
 
 
 public class Register {
@@ -32,6 +35,7 @@ public class Register {
 
     @FXML
     private PasswordField ParolaConfirmare;
+
 
     public void goBack(ActionEvent actionEvent) throws Exception {
         Stage stage = (Stage) BackButton.getScene().getWindow();
@@ -55,13 +59,14 @@ public class Register {
         return conn;
     }
 
-    public boolean insertDB(String Nume, String Parola) {
-        String sql = "INSERT INTO User(Name,Password) VALUES(?,?)";
+    public boolean insertDB(String Nume, String Parola, String salt) {
+        String sql = "INSERT INTO User(Name,Password,SALT) VALUES(?,?,?)";
 
         try (Connection conn = this.connectDB();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, Nume);
             pstmt.setString(2, Parola);
+            pstmt.setString(3, salt);
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -72,14 +77,18 @@ public class Register {
 
     public void register(ActionEvent actionEvent) throws Exception {
 
+        String id_UUID = UUID.randomUUID().toString();
+
         String Nume = NumeRegister.getText();
         String Parola = ParolaRegister.getText();
         String ParolaCon = ParolaConfirmare.getText();
-        String secretKey = ParolaRegister.getText();
+
+        String secretKey = Parola+id_UUID;
 
         String criptare_parola = AES_Crypt.encrypt(Parola,secretKey);
+        String criptare_uuid = AES_Crypt.encrypt(id_UUID,Parola);
         if (Parola.equals(ParolaCon)) {
-            if (insertDB(Nume, criptare_parola) == true) {
+            if (insertDB(Nume, criptare_parola, criptare_uuid) == true) {
                 System.out.println("Inserarea a fost efectuata cu succes !");
                 Succes suc = new Succes();
                 suc.launchSucces();
