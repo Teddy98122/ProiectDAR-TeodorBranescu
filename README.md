@@ -1,2 +1,2 @@
 # ProiectDAR-TeodorBranescu
-This is the main project for DAR
+This is an encrypted diary using java.
